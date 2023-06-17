@@ -5,27 +5,15 @@ import 'dart:convert';
 class UserResponseModel {
   final String username;
   final String email;
-  final int sales;
-  final int customers;
-  final String till;
-  final bool companyAdmin;
 
-  const UserResponseModel(
-      {required this.username,
-      required this.email,
-      required this.sales,
-      required this.customers,
-      required this.till,
-      required this.companyAdmin});
+  const UserResponseModel({
+    required this.username,
+    required this.email,
+  });
 
   factory UserResponseModel.fromJson(Map<String, dynamic> json) {
     return UserResponseModel(
-        username: json['user']['username'],
-        email: json['user']['email'],
-        sales: json['user']['sales'],
-        customers: json['user']['customers'],
-        till: json['user']['till_number'],
-        companyAdmin: json['user']['is_company_admin']);
+        username: json['user']['username'], email: json['user']['email']);
   }
 }
 

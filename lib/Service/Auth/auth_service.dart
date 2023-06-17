@@ -4,8 +4,6 @@ import 'package:crm/Models/LoginModel/login_model.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  var client = http.Client();
-
   Future<LoginResponseModel> login(String username, String password) async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',

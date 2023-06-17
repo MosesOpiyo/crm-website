@@ -1,5 +1,9 @@
 // ignore_for_file: file_names
 
+import 'package:crm/Pages/Sales/single_sale.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:crm/Service/Sales/sales_service.dart';
+import 'package:crm/Service/User/user_service.dart';
 import 'package:crm/sub_components/side_nav.dart';
 import 'package:flutter/material.dart';
 
@@ -57,17 +61,29 @@ class _SalesBodyState extends State<SalesBody> {
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(10)),
                   padding: const EdgeInsets.all(5),
-                  child: const Row(
+                  child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.person_2_outlined,
                         color: Colors.white,
                       ),
-                      Text("User",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                          ))
+                      FutureBuilder(
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(
+                              snapshot.data!.username,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            );
+                          } else {
+                            return const Text('');
+                          }
+                        },
+                        future: Userservice().getProfile(),
+                      ),
                     ],
                   ),
                 )
@@ -86,7 +102,7 @@ class _SalesBodyState extends State<SalesBody> {
                     Container(
                         alignment: Alignment.center,
                         width: 250,
-                        height: 100,
+                        height: 75,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             color: Colors.blue,
@@ -111,7 +127,7 @@ class _SalesBodyState extends State<SalesBody> {
                     Container(
                         alignment: Alignment.center,
                         width: 250,
-                        height: 100,
+                        height: 75,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             color: Colors.blue,
@@ -136,7 +152,7 @@ class _SalesBodyState extends State<SalesBody> {
                     Container(
                         alignment: Alignment.center,
                         width: 250,
-                        height: 100,
+                        height: 75,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             color: Colors.blue,
@@ -161,7 +177,7 @@ class _SalesBodyState extends State<SalesBody> {
                     Container(
                         alignment: Alignment.center,
                         width: 250,
-                        height: 100,
+                        height: 75,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                             color: Colors.blue,
@@ -186,7 +202,7 @@ class _SalesBodyState extends State<SalesBody> {
                   ],
                 )),
             Padding(
-              padding: const EdgeInsets.only(right: 5, top: 10),
+              padding: const EdgeInsets.only(top: 10),
               child: AppBar(
                 automaticallyImplyLeading: false,
                 title: Padding(
@@ -844,7 +860,8 @@ class _SalesBodyState extends State<SalesBody> {
                   ),
                 ),
                 actions: [
-                  SizedBox(
+                  Container(
+                    margin: const EdgeInsets.only(right: 5),
                     width: 330,
                     height: 45,
                     child: TextFormField(
@@ -861,101 +878,118 @@ class _SalesBodyState extends State<SalesBody> {
             Container(
                 margin: const EdgeInsets.all(10),
                 width: size.width,
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    DataTable(columns: const [
-                      DataColumn(
-                          label: Text("Product",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                      DataColumn(
-                          label: Text("Supplier",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                      DataColumn(
-                          label: Text("IMEI",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                      DataColumn(
-                          label: Text("Courier",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                      DataColumn(
-                          label: Text("Client",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                      DataColumn(
-                          label: Text("Status",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                      DataColumn(
-                          label: Text("Cash",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                      DataColumn(
-                          label: Text("Mpesa",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                      DataColumn(
-                          label: Text("Invoiced",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              )))
-                    ], rows: [
-                      DataRow(onSelectChanged: (value) {}, cells: const [
-                        DataCell(Text("Samsung M33")),
-                        DataCell(Text("Rashid")),
-                        DataCell(Text("35345436456")),
-                        DataCell(Text("John")),
-                        DataCell(Text("Moses")),
-                        DataCell(Text("In Shop")),
-                        DataCell(Text("20,000")),
-                        DataCell(Text("None")),
-                        DataCell(Text("5,000"))
-                      ]),
-                      DataRow(onSelectChanged: (value) {}, cells: const [
-                        DataCell(Text("Samsung M33")),
-                        DataCell(Text("Rashid")),
-                        DataCell(Text("35345436456")),
-                        DataCell(Text("John")),
-                        DataCell(Text("Moses")),
-                        DataCell(Text("In Shop")),
-                        DataCell(Text("20,000")),
-                        DataCell(Text("None")),
-                        DataCell(Text("5,000"))
-                      ]),
-                      DataRow(onSelectChanged: (value) {}, cells: const [
-                        DataCell(Text("Samsung M33")),
-                        DataCell(Text("Rashid")),
-                        DataCell(Text("35345436456")),
-                        DataCell(Text("John")),
-                        DataCell(Text("Moses")),
-                        DataCell(Text("In Shop")),
-                        DataCell(Text("20,000")),
-                        DataCell(Text("None")),
-                        DataCell(Text("5,000"))
-                      ])
-                    ]),
-                  ],
-                ))
+                child: FutureBuilder(
+                    future: Salesservice().getSales(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView(
+                          shrinkWrap: true,
+                          children: [
+                            DataTable(
+                                columns: const [
+                                  DataColumn(
+                                      label: Text("Product",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ))),
+                                  DataColumn(
+                                      label: Text("Supplier",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ))),
+                                  DataColumn(
+                                      label: Text("IMEI",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ))),
+                                  DataColumn(
+                                      label: Text("Courier",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ))),
+                                  DataColumn(
+                                      label: Text("Client",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ))),
+                                  DataColumn(
+                                      label: Text("Status",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ))),
+                                  DataColumn(
+                                      label: Text("Cash",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ))),
+                                  DataColumn(
+                                      label: Text("Mpesa",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ))),
+                                  DataColumn(
+                                      label: Text("Invoiced",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          )))
+                                ],
+                                rows: List.generate(snapshot.data!.length,
+                                    (index) {
+                                  var data = snapshot.data![index];
+                                  return DataRow(
+                                      onSelectChanged: (value) {
+                                        Navigator.push(
+                                            context,
+                                            PageTransition(
+                                                type: PageTransitionType.fade,
+                                                child: SingleSale(
+                                                    saleId: data.id)));
+                                      },
+                                      cells: [
+                                        DataCell(
+                                          Text(data.product),
+                                        ),
+                                        DataCell(
+                                          Text(data.supplier),
+                                        ),
+                                        DataCell(
+                                          Text(data.imei.toString()),
+                                        ),
+                                        DataCell(
+                                          Text(data.deliveredBy),
+                                        ),
+                                        DataCell(
+                                          Text(data.clientName),
+                                        ),
+                                        DataCell(
+                                          Text(data.status),
+                                        ),
+                                        DataCell(
+                                          Text(data.cash.toString()),
+                                        ),
+                                        DataCell(
+                                          Text(data.mpesa.toString()),
+                                        ),
+                                        DataCell(
+                                          Text(data.invoicedAmount.toString()),
+                                        ),
+                                      ]);
+                                }).toList()),
+                          ],
+                        );
+                      } else {
+                        return const Text("No data");
+                      }
+                    }))
           ],
         ));
   }

@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_null_comparison
+// ignore_for_file: unnecessary_null_comparison, file_names
 
 import 'package:crm/Authentication/login_texts.dart';
 import 'package:crm/Pages/Sales/sales.dart';
@@ -37,21 +37,6 @@ class _LoginState extends State<Login> {
     if (stringValue != null) {
       Userservice().getProfile().then((response) => {
             if (response != null) {Navigator.of(context).pushNamed(Sales.route)}
-          });
-    }
-  }
-
-  login() {
-    String username = usernameController.text;
-    String password = passwordController.text;
-    isAPIcallProcess = true;
-    if (username != '' && password != '') {
-      AuthService().login(username, password).then((response) async => {
-            if (response.token != "")
-              {
-                setToken(response.token),
-                Navigator.of(context).pushNamed(Sales.route)
-              }
           });
     }
   }
@@ -154,6 +139,7 @@ class _LoginState extends State<Login> {
                                           BorderRadius.circular(10.0)),
                                   labelText: 'Password'),
                               keyboardType: TextInputType.text,
+                              controller: passwordController,
                             ),
                           ),
                           Container(
@@ -184,7 +170,21 @@ class _LoginState extends State<Login> {
                                             side: const BorderSide(
                                                 color: Colors.blue)))),
                                 onPressed: () {
-                                  getStringValuesSF();
+                                  String username = usernameController.text;
+                                  String password = passwordController.text;
+                                  isAPIcallProcess = true;
+                                  if (username != '' && password != '') {
+                                    AuthService()
+                                        .login(username, password)
+                                        .then((response) async => {
+                                              if (response.token != "")
+                                                {
+                                                  setToken(response.token),
+                                                  Navigator.of(context)
+                                                      .pushNamed(Sales.route)
+                                                }
+                                            });
+                                  }
                                 },
                                 child: const Text('Login'),
                               ),

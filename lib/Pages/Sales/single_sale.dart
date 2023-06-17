@@ -1,38 +1,44 @@
+import 'package:crm/Service/Sales/sales_service.dart';
 import 'package:crm/Service/User/user_service.dart';
 import 'package:crm/sub_components/side_nav.dart';
 import 'package:flutter/material.dart';
 
-class Stocks extends StatelessWidget {
-  static const String route = '/DashBoard/Stocks';
-  const Stocks({super.key});
+class SingleSale extends StatelessWidget {
+  static const String route = '/DashBoard/Single_Sales';
+  final int saleId;
+  const SingleSale({required this.saleId, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Row(
         children: [
-          SizedBox(
+          const SizedBox(
             child: SideNav(),
           ),
           SizedBox(
-            child: StocksBody(),
-          )
+            child: SingleSaleBody(
+              id: saleId,
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-class StocksBody extends StatefulWidget {
-  const StocksBody({super.key});
+class SingleSaleBody extends StatefulWidget {
+  final int id;
+  const SingleSaleBody({super.key, required this.id});
 
   @override
-  State<StocksBody> createState() => _StocksBodyState();
+  State<SingleSaleBody> createState() => _SingleSaleBodyState();
 }
 
-class _StocksBodyState extends State<StocksBody> {
+class _SingleSaleBodyState extends State<SingleSaleBody> {
   @override
   Widget build(BuildContext context) {
+    String dropdownValue = 'At The Shop';
     Size size = MediaQuery.of(context).size;
     return SizedBox(
         width: size.width * .8,
@@ -41,9 +47,9 @@ class _StocksBodyState extends State<StocksBody> {
             AppBar(
               automaticallyImplyLeading: false,
               title: const Padding(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.zero,
                 child: Text(
-                  "Stocks Panel",
+                  "Single Sale",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
@@ -82,115 +88,43 @@ class _StocksBodyState extends State<StocksBody> {
                 )
               ],
             ),
-            const SizedBox(
-              height: 20,
-            ),
             SizedBox(
                 width: size.width,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Spacer(),
-                    Container(
-                        alignment: Alignment.center,
-                        width: 250,
-                        height: 100,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Column(
-                          children: [
-                            Text("Sold Stocks Value",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                            Text("Ksh 100,000",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                          ],
-                        )),
-                    const Spacer(),
-                    Container(
-                        alignment: Alignment.center,
-                        width: 250,
-                        height: 100,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Column(
-                          children: [
-                            Text("Sold Units",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                            Text("100 Units",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                          ],
-                        )),
-                    const Spacer(),
-                    Container(
-                        alignment: Alignment.center,
-                        width: 250,
-                        height: 100,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Column(
-                          children: [
-                            Text("Pending Units",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                            Text("20 Units",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                          ],
-                        )),
-                    const Spacer(),
-                    Container(
-                        alignment: Alignment.center,
-                        width: 250,
-                        height: 100,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: const Column(
-                          children: [
-                            Text("Sales",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                            Text("Ksh 100,000",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                )),
-                          ],
-                        )),
+                    FutureBuilder(
+                        future: Salesservice().getSingleSale(widget.id),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Container(
+                                alignment: Alignment.center,
+                                margin: const EdgeInsets.only(left: 15),
+                                child: Column(
+                                  children: [
+                                    Text("${snapshot.data!.product} Sale",
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
+                                        )),
+                                  ],
+                                ));
+                          } else {
+                            return Container(
+                                alignment: Alignment.center,
+                                margin: const EdgeInsets.only(left: 15),
+                                child: const Column(
+                                  children: [
+                                    Text("Device Sale",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
+                                        )),
+                                  ],
+                                ));
+                          }
+                        }),
                     const Spacer(),
                   ],
                 )),
@@ -219,7 +153,7 @@ class _StocksBodyState extends State<StocksBody> {
                               showDialog(
                                   context: context,
                                   builder: (ctx) => AlertDialog(
-                                        title: const Text("New Stock"),
+                                        title: const Text("New Sale"),
                                         shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(10.0))),
@@ -545,20 +479,56 @@ class _StocksBodyState extends State<StocksBody> {
                                                               ],
                                                             ),
                                                           ),
-                                                          SizedBox(
+                                                          Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(10),
                                                             width: 330,
+                                                            height: 55,
+                                                            decoration: BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: Colors
+                                                                        .black),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10)),
                                                             child:
-                                                                TextFormField(
-                                                              decoration: InputDecoration(
-                                                                  border: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10.0)),
-                                                                  labelText:
-                                                                      'Status'),
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .text,
+                                                                DropdownButton<
+                                                                    String>(
+                                                              // Step 3.
+
+                                                              value:
+                                                                  dropdownValue,
+                                                              // Step 4.
+                                                              items: <String>[
+                                                                'At The Shop',
+                                                                'Invoiced',
+                                                                'Sold',
+                                                                'Returned'
+                                                              ].map<
+                                                                  DropdownMenuItem<
+                                                                      String>>((String
+                                                                  value) {
+                                                                return DropdownMenuItem<
+                                                                    String>(
+                                                                  value: value,
+                                                                  child: Text(
+                                                                    value,
+                                                                    style: const TextStyle(
+                                                                        color: Colors
+                                                                            .black),
+                                                                  ),
+                                                                );
+                                                              }).toList(),
+                                                              // Step 5.
+                                                              onChanged: (String?
+                                                                  newValue) {
+                                                                setState(() {
+                                                                  dropdownValue =
+                                                                      newValue!;
+                                                                });
+                                                              },
                                                             ),
                                                           ),
                                                         ],
@@ -801,10 +771,40 @@ class _StocksBodyState extends State<StocksBody> {
                             child: const Row(
                               children: [
                                 Icon(
-                                  Icons.add,
+                                  Icons.edit_outlined,
                                   color: Colors.white,
                                 ),
-                                Text("Add Stock",
+                                Text("Edit Sale",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                    ))
+                              ],
+                            )),
+                      ),
+                      const Padding(padding: EdgeInsets.only(right: 15)),
+                      SizedBox(
+                        height: 40,
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.blue),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        side: const BorderSide(
+                                            color: Colors.blue)))),
+                            onPressed: () {},
+                            child: const Row(
+                              children: [
+                                Icon(
+                                  Icons.document_scanner,
+                                  color: Colors.white,
+                                ),
+                                Text("Print Sale",
                                     style: TextStyle(
                                       fontSize: 15,
                                       color: Colors.white,
@@ -816,84 +816,495 @@ class _StocksBodyState extends State<StocksBody> {
                     ],
                   ),
                 ),
-                actions: [
-                  SizedBox(
-                    width: 330,
-                    height: 45,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          labelText: 'Search'),
-                      keyboardType: TextInputType.text,
-                    ),
-                  ),
-                ],
               ),
             ),
             Container(
-                margin: const EdgeInsets.all(10),
-                width: size.width,
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    DataTable(columns: const [
-                      DataColumn(
-                          label: Text("Product",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                      DataColumn(
-                          label: Text("Supplier",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                      DataColumn(
-                          label: Text("IMEI",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                      DataColumn(
-                          label: Text("Checked In By",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                      DataColumn(
-                          label: Text("Warranty",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                      DataColumn(
-                          label: Text("Amount",
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ))),
-                    ], rows: [
-                      DataRow(onSelectChanged: (value) {}, cells: const [
-                        DataCell(Text("Samsung M33")),
-                        DataCell(Text("Rashid")),
-                        DataCell(Text("35345436456")),
-                        DataCell(Text("John")),
-                        DataCell(Text("2 years")),
-                        DataCell(Text("20,000"))
-                      ]),
-                      DataRow(onSelectChanged: (value) {}, cells: const [
-                        DataCell(Text("Samsung M33")),
-                        DataCell(Text("Rashid")),
-                        DataCell(Text("35345436456")),
-                        DataCell(Text("John")),
-                        DataCell(Text("2 years")),
-                        DataCell(Text("35,000"))
-                      ]),
-                    ]),
-                  ],
-                ))
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.only(top: 5),
+              margin: const EdgeInsets.only(left: 15),
+              child: const Text("Sales Properties",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+            FutureBuilder(
+                future: Salesservice().getSingleSale(widget.id),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView(
+                      shrinkWrap: true,
+                      children: [
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 15),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Product",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Supplier",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("IMEI",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Picked at shop",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Courier",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Client Name",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text(
+                                                "Client Phone Number",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Client Email",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Client Location",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Client Pin",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 15),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(snapshot.data!.product,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(snapshot.data!.supplier,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(
+                                                snapshot.data!.imei.toString(),
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(
+                                                snapshot.data!.pickedAtShop
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(
+                                                snapshot.data!.deliveredBy,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(
+                                                snapshot.data!.clientName,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(
+                                                snapshot.data!.clientPhoneNumber
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(
+                                                snapshot.data!.clientEmail,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(
+                                                snapshot.data!.clientLocation,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(
+                                                snapshot.data!.clientPin,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 15),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Sold by",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Status",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Warranty status",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Cash",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Mpesa",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Invoiced Amount",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Expense Name",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: const Text("Expense Amount",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w400,
+                                                )),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 25),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(snapshot.data!.soldBy,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(snapshot.data!.status,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(
+                                                snapshot.data!.warrantyStatus,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(
+                                                snapshot.data!.cash.toString(),
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(
+                                                snapshot.data!.mpesa.toString(),
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(
+                                                snapshot.data!.invoicedAmount
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(
+                                                snapshot.data!.expenseName,
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                          Container(
+                                            width: 200,
+                                            alignment: Alignment.centerLeft,
+                                            padding: EdgeInsets.zero,
+                                            height: 30,
+                                            child: Text(
+                                                snapshot.data!.expenseAmount
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  } else {
+                    return const Text("No Data Found");
+                  }
+                })
           ],
         ));
   }
