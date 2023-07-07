@@ -58,9 +58,14 @@ class _SalesBodyState extends State<SalesBody> {
   String expenseName = '';
   int expenseAmount = 0;
 
+  String dropdownvalue = 'At The Shop';
+
+  // List of items in our dropdown menu
+
   TextEditingController productController = TextEditingController();
   TextEditingController supplierController = TextEditingController();
   TextEditingController imeiController = TextEditingController();
+  TextEditingController pickedAtShopController = TextEditingController();
   TextEditingController deliveredByController = TextEditingController();
   TextEditingController clientNameController = TextEditingController();
   TextEditingController clientPhoneNumberController = TextEditingController();
@@ -309,18 +314,41 @@ class _SalesBodyState extends State<SalesBody> {
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              width: 330,
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    labelText: 'Status'),
-                                keyboardType: TextInputType.text,
-                                controller: statusController,
-                              ),
-                            ),
+                            Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: const Color.fromARGB(
+                                            255, 122, 122, 122))),
+                                width: 330,
+                                height: 55,
+                                padding: const EdgeInsets.only(left: 10),
+                                child: StatefulBuilder(
+                                  builder: (context, setState) {
+                                    return DropdownButton(
+                                      value: dropdownvalue,
+                                      icon:
+                                          const Icon(Icons.keyboard_arrow_down),
+                                      items: <String>[
+                                        'At The Shop',
+                                        'Sold',
+                                        'Invoiced',
+                                        'returned',
+                                      ].map((String item) {
+                                        return DropdownMenuItem(
+                                          value: item,
+                                          child: Text(item),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          dropdownvalue = newValue!;
+                                          statusController.text = newValue;
+                                        });
+                                      },
+                                    );
+                                  },
+                                )),
                           ],
                         ),
                       ],
@@ -346,12 +374,18 @@ class _SalesBodyState extends State<SalesBody> {
                             ],
                           ),
                         ),
-                        Checkbox(
-                          value: pickedAtShop,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              pickedAtShop = value!;
-                            });
+                        StatefulBuilder(
+                          builder: (context, setState) {
+                            return Checkbox(
+                              value: pickedAtShop,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  pickedAtShop = value!;
+                                  pickedAtShopController.text =
+                                      value.toString();
+                                });
+                              },
+                            );
                           },
                         ),
                         const Spacer(),

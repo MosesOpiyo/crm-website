@@ -57,6 +57,845 @@ class _SingleSaleBodyState extends State<SingleSaleBody> {
   int invoicedAmount = 0;
   String expenseName = '';
   int expenseAmount = 0;
+  String dropdownvalue = 'At The Shop';
+
+  editSaleForm() {
+    TextEditingController productController = TextEditingController();
+    TextEditingController supplierController = TextEditingController();
+    TextEditingController imeiController = TextEditingController();
+    TextEditingController deliveredByController = TextEditingController();
+    TextEditingController clientNameController = TextEditingController();
+    TextEditingController clientPhoneNumberController = TextEditingController();
+    TextEditingController clientEmailController = TextEditingController();
+    TextEditingController clientLocationController = TextEditingController();
+    TextEditingController clientPinController = TextEditingController();
+    TextEditingController soldByController = TextEditingController();
+    TextEditingController statusController = TextEditingController();
+    TextEditingController warrantyStatusController = TextEditingController();
+    TextEditingController cashController = TextEditingController();
+    TextEditingController mpesaController = TextEditingController();
+    TextEditingController invoicedAmountController = TextEditingController();
+    TextEditingController expenseNameController = TextEditingController();
+    TextEditingController expenseAmountController = TextEditingController();
+
+    int activeStepIndex = 0;
+
+    List<Step> stepList() => [
+          Step(
+              state:
+                  activeStepIndex <= 0 ? StepState.editing : StepState.complete,
+              isActive: activeStepIndex >= 0,
+              title: const Text('Product Details'),
+              content: Center(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Product",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Product'),
+                                keyboardType: TextInputType.text,
+                                controller: productController,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Supplier",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Supplier'),
+                                keyboardType: TextInputType.text,
+                                controller: supplierController,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "IMEI",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'IMEI'),
+                                keyboardType: TextInputType.text,
+                                controller: imeiController,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Delivered by",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Delivered by'),
+                                keyboardType: TextInputType.text,
+                                controller: deliveredByController,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Sold By",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Sold By'),
+                                keyboardType: TextInputType.text,
+                                controller: soldByController,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Status",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: const Color.fromARGB(
+                                            255, 122, 122, 122))),
+                                width: 330,
+                                height: 55,
+                                padding: const EdgeInsets.only(left: 10),
+                                child: StatefulBuilder(
+                                  builder: (context, setState) {
+                                    return DropdownButton(
+                                      value: dropdownvalue,
+                                      icon:
+                                          const Icon(Icons.keyboard_arrow_down),
+                                      items: <String>[
+                                        'At The Shop',
+                                        'Sold',
+                                        'Invoiced',
+                                        'returned',
+                                      ].map((String item) {
+                                        return DropdownMenuItem(
+                                          value: item,
+                                          child: Text(item),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          dropdownvalue = newValue!;
+                                          statusController.text = newValue;
+                                        });
+                                      },
+                                    );
+                                  },
+                                )),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(left: 2, bottom: 5),
+                          alignment: Alignment.centerLeft,
+                          child: const Row(
+                            children: [
+                              Text(
+                                "Picked at shop",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                "*",
+                                style: TextStyle(color: Colors.red),
+                              )
+                            ],
+                          ),
+                        ),
+                        StatefulBuilder(
+                          builder: (context, setState) {
+                            return Checkbox(
+                              value: pickedAtShop,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  pickedAtShop = value!;
+                                });
+                              },
+                            );
+                          },
+                        ),
+                        const Spacer(),
+                      ],
+                    ),
+                  ],
+                ),
+              )),
+          Step(
+              state:
+                  activeStepIndex <= 1 ? StepState.editing : StepState.complete,
+              isActive: activeStepIndex >= 1,
+              title: const Text('Client Details'),
+              content: Center(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Client Name",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Client Name'),
+                                keyboardType: TextInputType.text,
+                                controller: clientNameController,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Client Email",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Client Email'),
+                                keyboardType: TextInputType.text,
+                                controller: clientEmailController,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Client Phone Number",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Client Phone Number'),
+                                keyboardType: TextInputType.text,
+                                controller: clientPhoneNumberController,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Client Location",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Client Location'),
+                                keyboardType: TextInputType.text,
+                                controller: clientLocationController,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Client Pin",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Client Pin'),
+                                keyboardType: TextInputType.text,
+                                controller: clientPinController,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                      ],
+                    ),
+                  ],
+                ),
+              )),
+          Step(
+              state:
+                  activeStepIndex <= 2 ? StepState.editing : StepState.complete,
+              isActive: activeStepIndex >= 2,
+              title: const Text('Monetary Details'),
+              content: Center(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Cash",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Cash'),
+                                keyboardType: TextInputType.text,
+                                controller: cashController,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Mpesa",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Mpesa'),
+                                keyboardType: TextInputType.text,
+                                controller: mpesaController,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Invoiced Amount",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Invoiced Amount'),
+                                keyboardType: TextInputType.text,
+                                controller: invoicedAmountController,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Expense Name",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Expense Name'),
+                                keyboardType: TextInputType.text,
+                                controller: expenseNameController,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Expense Amount",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Expense Amount'),
+                                keyboardType: TextInputType.text,
+                                controller: expenseAmountController,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        Column(
+                          children: [
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 2, bottom: 5),
+                              width: 330,
+                              alignment: Alignment.centerLeft,
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    "Warranty Status",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "*",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: 330,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    labelText: 'Warranty Status'),
+                                keyboardType: TextInputType.text,
+                                controller: warrantyStatusController,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ))
+        ];
+
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: const Text("Edit Sale"),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              content: StatefulBuilder(
+                builder: (context, setState) {
+                  var height = MediaQuery.of(context).size.height;
+                  var width = MediaQuery.of(context).size.width;
+
+                  return SizedBox(
+                      height: height - 100,
+                      width: width - 500,
+                      child: Stepper(
+                        steps: stepList(),
+                        type: StepperType.horizontal,
+                        currentStep: activeStepIndex,
+                        onStepContinue: () {
+                          if (activeStepIndex < (stepList().length - 1)) {
+                            setState(() {
+                              activeStepIndex += 1;
+                            });
+                          } else if (activeStepIndex ==
+                              (stepList().length - 1)) {
+                            Navigator.pop(ctx);
+                          } else {
+                            return;
+                          }
+                        },
+                        onStepCancel: () {
+                          setState(() {
+                            activeStepIndex > 0
+                                ? activeStepIndex -= 1
+                                : Navigator.pop(ctx);
+                          });
+                        },
+                        onStepTapped: (int value) {
+                          setState(() {
+                            activeStepIndex = value;
+                          });
+                        },
+                      ));
+                },
+              ),
+            ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -579,23 +1418,61 @@ class _SingleSaleBodyState extends State<SingleSaleBody> {
                                                                   ],
                                                                 ),
                                                               ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Status'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      statusController,
-                                                                ),
-                                                              ),
+                                                              Container(
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
+                                                                      border: Border.all(
+                                                                          color: const Color.fromARGB(
+                                                                              255,
+                                                                              122,
+                                                                              122,
+                                                                              122))),
+                                                                  width: 330,
+                                                                  height: 55,
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left: 10),
+                                                                  child:
+                                                                      StatefulBuilder(
+                                                                    builder:
+                                                                        (context,
+                                                                            setState) {
+                                                                      return DropdownButton(
+                                                                        value:
+                                                                            dropdownvalue,
+                                                                        icon: const Icon(
+                                                                            Icons.keyboard_arrow_down),
+                                                                        items:
+                                                                            <String>[
+                                                                          'At The Shop',
+                                                                          'Sold',
+                                                                          'Invoiced',
+                                                                          'returned',
+                                                                        ].map((String
+                                                                                item) {
+                                                                          return DropdownMenuItem(
+                                                                            value:
+                                                                                item,
+                                                                            child:
+                                                                                Text(item),
+                                                                          );
+                                                                        }).toList(),
+                                                                        onChanged:
+                                                                            (String?
+                                                                                newValue) {
+                                                                          setState(
+                                                                              () {
+                                                                            dropdownvalue =
+                                                                                newValue!;
+                                                                            statusController.text =
+                                                                                newValue;
+                                                                          });
+                                                                        },
+                                                                      );
+                                                                    },
+                                                                  )),
                                                             ],
                                                           ),
                                                         ],
@@ -633,14 +1510,21 @@ class _SingleSaleBodyState extends State<SingleSaleBody> {
                                                               ],
                                                             ),
                                                           ),
-                                                          Checkbox(
-                                                            value: pickedAtShop,
-                                                            onChanged:
-                                                                (bool? value) {
-                                                              setState(() {
-                                                                pickedAtShop =
-                                                                    value!;
-                                                              });
+                                                          StatefulBuilder(
+                                                            builder: (context,
+                                                                setState) {
+                                                              return Checkbox(
+                                                                value:
+                                                                    pickedAtShop,
+                                                                onChanged:
+                                                                    (bool?
+                                                                        value) {
+                                                                  setState(() {
+                                                                    pickedAtShop =
+                                                                        value!;
+                                                                  });
+                                                                },
+                                                              );
                                                             },
                                                           ),
                                                           const Spacer(),
@@ -1487,1176 +2371,7 @@ class _SingleSaleBodyState extends State<SingleSaleBody> {
                                                     BorderRadius.circular(10),
                                                 side: const BorderSide(
                                                     color: Colors.blue)))),
-                                    onPressed: () {
-                                      TextEditingController productController =
-                                          TextEditingController();
-                                      TextEditingController supplierController =
-                                          TextEditingController();
-                                      TextEditingController imeiController =
-                                          TextEditingController();
-                                      TextEditingController
-                                          deliveredByController =
-                                          TextEditingController();
-                                      TextEditingController
-                                          clientNameController =
-                                          TextEditingController();
-                                      TextEditingController
-                                          clientPhoneNumberController =
-                                          TextEditingController();
-                                      TextEditingController
-                                          clientEmailController =
-                                          TextEditingController();
-                                      TextEditingController
-                                          clientLocationController =
-                                          TextEditingController();
-                                      TextEditingController
-                                          clientPinController =
-                                          TextEditingController();
-                                      TextEditingController soldByController =
-                                          TextEditingController();
-                                      TextEditingController statusController =
-                                          TextEditingController();
-                                      TextEditingController
-                                          warrantyStatusController =
-                                          TextEditingController();
-                                      TextEditingController cashController =
-                                          TextEditingController();
-                                      TextEditingController mpesaController =
-                                          TextEditingController();
-                                      TextEditingController
-                                          invoicedAmountController =
-                                          TextEditingController();
-                                      TextEditingController
-                                          expenseNameController =
-                                          TextEditingController();
-                                      TextEditingController
-                                          expenseAmountController =
-                                          TextEditingController();
-
-                                      int activeStepIndex = 0;
-
-                                      List<Step> stepList() => [
-                                            Step(
-                                                state: activeStepIndex <= 0
-                                                    ? StepState.editing
-                                                    : StepState.complete,
-                                                isActive: activeStepIndex >= 0,
-                                                title: const Text(
-                                                    'Product Details'),
-                                                content: Center(
-                                                  child: Column(
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Product",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Product'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      productController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const Spacer(),
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Supplier",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Supplier'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      supplierController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "IMEI",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'IMEI'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      imeiController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const Spacer(),
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Delivered by",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Delivered by'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      deliveredByController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Sold By",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Sold By'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      soldByController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const Spacer(),
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Status",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Status'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      statusController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 2,
-                                                                    bottom: 5),
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: const Row(
-                                                              children: [
-                                                                Text(
-                                                                  "Picked at shop",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  "*",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .red),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Checkbox(
-                                                            value: pickedAtShop,
-                                                            onChanged:
-                                                                (bool? value) {
-                                                              setState(() {
-                                                                pickedAtShop =
-                                                                    value!;
-                                                              });
-                                                            },
-                                                          ),
-                                                          const Spacer(),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )),
-                                            Step(
-                                                state: activeStepIndex <= 1
-                                                    ? StepState.editing
-                                                    : StepState.complete,
-                                                isActive: activeStepIndex >= 1,
-                                                title: const Text(
-                                                    'Client Details'),
-                                                content: Center(
-                                                  child: Column(
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Client Name",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Client Name'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      clientNameController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const Spacer(),
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Client Email",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Client Email'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      clientEmailController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Client Phone Number",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Client Phone Number'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      clientPhoneNumberController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const Spacer(),
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Client Location",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Client Location'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      clientLocationController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Client Pin",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Client Pin'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      clientPinController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const Spacer(),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )),
-                                            Step(
-                                                state: activeStepIndex <= 2
-                                                    ? StepState.editing
-                                                    : StepState.complete,
-                                                isActive: activeStepIndex >= 2,
-                                                title: const Text(
-                                                    'Monetary Details'),
-                                                content: Center(
-                                                  child: Column(
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Cash",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Cash'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      cashController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const Spacer(),
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Mpesa",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Mpesa'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      mpesaController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Invoiced Amount",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Invoiced Amount'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      invoicedAmountController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const Spacer(),
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Expense Name",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Expense Name'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      expenseNameController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Expense Amount",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Expense Amount'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      expenseAmountController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const Spacer(),
-                                                          Column(
-                                                            children: [
-                                                              Container(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 2,
-                                                                        bottom:
-                                                                            5),
-                                                                width: 330,
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    const Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Warranty Status",
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .left,
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                    Text(
-                                                                      "*",
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.red),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                width: 330,
-                                                                child:
-                                                                    TextFormField(
-                                                                  decoration: InputDecoration(
-                                                                      border: OutlineInputBorder(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              10.0)),
-                                                                      labelText:
-                                                                          'Warranty Status'),
-                                                                  keyboardType:
-                                                                      TextInputType
-                                                                          .text,
-                                                                  controller:
-                                                                      warrantyStatusController,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ))
-                                          ];
-
-                                      showDialog(
-                                          context: context,
-                                          builder: (ctx) => AlertDialog(
-                                                title: const Text("Edit Sale"),
-                                                shape:
-                                                    const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    10.0))),
-                                                content: StatefulBuilder(
-                                                  builder: (context, setState) {
-                                                    var height =
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .height;
-                                                    var width =
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width;
-
-                                                    return SizedBox(
-                                                        height: height - 100,
-                                                        width: width - 500,
-                                                        child: Stepper(
-                                                          steps: stepList(),
-                                                          type: StepperType
-                                                              .horizontal,
-                                                          currentStep:
-                                                              activeStepIndex,
-                                                          onStepContinue: () {
-                                                            if (activeStepIndex <
-                                                                (stepList()
-                                                                        .length -
-                                                                    1)) {
-                                                              setState(() {
-                                                                activeStepIndex +=
-                                                                    1;
-                                                              });
-                                                            } else if (activeStepIndex ==
-                                                                (stepList()
-                                                                        .length -
-                                                                    1)) {
-                                                              Navigator.pop(
-                                                                  ctx);
-                                                            } else {
-                                                              return;
-                                                            }
-                                                          },
-                                                          onStepCancel: () {
-                                                            setState(() {
-                                                              activeStepIndex >
-                                                                      0
-                                                                  ? activeStepIndex -=
-                                                                      1
-                                                                  : Navigator
-                                                                      .pop(ctx);
-                                                            });
-                                                          },
-                                                          onStepTapped:
-                                                              (int value) {
-                                                            setState(() {
-                                                              activeStepIndex =
-                                                                  value;
-                                                            });
-                                                          },
-                                                        ));
-                                                  },
-                                                ),
-                                              ));
-                                    },
+                                    onPressed: () {},
                                     child: const Row(
                                       children: [
                                         Icon(
