@@ -72,8 +72,10 @@ class SingleSaleResponseModel {
     _data['client_phone_number'] = clientPhoneNumber;
     _data['client_email'] = clientEmail;
     _data['client_location'] = clientLocation;
+    _data['client_pin'] = clientPin;
     _data['sold_by'] = soldBy;
     _data['status'] = status;
+    _data['warranty_status'] = warrantyStatus;
     _data['cash'] = cash;
     _data['mpesa'] = mpesa;
     _data['invoiced_amount'] = invoicedAmount;

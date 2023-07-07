@@ -3,7 +3,6 @@
 import 'package:crm/Authentication/login_texts.dart';
 import 'package:crm/Pages/Sales/sales.dart';
 import 'package:crm/Service/Auth/auth_service.dart';
-import 'package:crm/Service/User/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,18 +26,25 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
-    getStringValuesSF();
     super.initState();
   }
 
-  getStringValuesSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var stringValue = prefs.getString('token');
-    if (stringValue != null) {
-      Userservice().getProfile().then((response) => {
-            if (response != null) {Navigator.of(context).pushNamed(Sales.route)}
-          });
-    }
+  showSnackBar() {
+    final snackBar = SnackBar(
+      backgroundColor: Colors.red,
+      behavior: SnackBarBehavior.floating,
+      margin: const EdgeInsets.all(10),
+      content: const Text('Invalid Credentials. Please Retry.'),
+      action: SnackBarAction(
+        label: 'OK',
+        textColor: Colors.white,
+        onPressed: () {
+          setState(() {});
+        },
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    setState(() {});
   }
 
   void toggle() {
@@ -182,6 +188,16 @@ class _LoginState extends State<Login> {
                                                   setToken(response.token),
                                                   Navigator.of(context)
                                                       .pushNamed(Sales.route)
+                                                }
+                                              else
+                                                {
+                                                  showSnackBar(),
+                                                }
+                                            })
+                                        .onError((error, stackTrace) => {
+                                              if (error != "")
+                                                {
+                                                  showSnackBar(),
                                                 }
                                             });
                                   }

@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:crm/Constants/constants.dart';
 import 'package:crm/Models/LoginModel/login_model.dart';
+
 import 'package:http/http.dart' as http;
 
 class AuthService {
+  final str = "";
   Future<LoginResponseModel> login(String username, String password) async {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
@@ -14,6 +16,10 @@ class AuthService {
       headers: requestHeaders,
       body: jsonEncode({"username": username, "password": password}),
     );
-    return loginResponseJson(response.body);
+    if (response.statusCode == 200) {
+      return loginResponseJson(response.body);
+    } else {
+      return loginResponseJson(str);
+    }
   }
 }

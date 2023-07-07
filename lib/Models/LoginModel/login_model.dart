@@ -9,12 +9,10 @@ class LoginResponseModel {
   String? token;
   String? username;
   String? email;
+  bool? isAuthenticated;
 
-  LoginResponseModel({
-    this.token,
-    this.email,
-    this.username,
-  });
+  LoginResponseModel(
+      {this.token, this.email, this.username, this.isAuthenticated});
 
   LoginResponseModel.fromJson(Map<String, dynamic> json) {
     token = json['token'];

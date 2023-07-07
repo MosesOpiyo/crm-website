@@ -36,19 +36,116 @@ class Salesservice {
     return SingleSaleResponseModel.fromJson(cnv.jsonDecode(response.body));
   }
 
-  Future postSale(product) async {
+  Future postSale(
+      String product,
+      String supplier,
+      int imei,
+      bool pickedAtShop,
+      String deliveredBy,
+      String clientName,
+      int clientPhoneNumber,
+      String clientEmail,
+      String clientLocation,
+      String clientPin,
+      String soldBy,
+      String status,
+      String warrantyStatus,
+      int cash,
+      int mpesa,
+      int invoicedAmount,
+      String expenseName,
+      int expenseAmount) async {
     String? token;
     final prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token');
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Token $token'
+    };
+    var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.newSale);
+    final data = SingleSaleResponseModel(
+      product: product,
+      supplier: supplier,
+      imei: imei,
+      pickedAtShop: pickedAtShop,
+      deliveredBy: deliveredBy,
+      clientName: clientName,
+      clientEmail: clientEmail,
+      clientPhoneNumber: clientPhoneNumber,
+      clientLocation: clientLocation,
+      clientPin: clientPin,
+      soldBy: soldBy,
+      status: status,
+      warrantyStatus: warrantyStatus,
+      cash: cash,
+      mpesa: mpesa,
+      invoicedAmount: invoicedAmount,
+      expenseName: expenseName,
+      expenseAmount: expenseAmount,
+    );
+    var response = await http.post(
+      url,
+      headers: requestHeaders,
+      body: cnv.jsonEncode(data.toJson()),
+    );
+    return response.body;
+  }
 
-    var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.newSales);
-    var response = await http.post(url,
-        headers: {
-          HttpHeaders.authorizationHeader: "Token $token",
-          "Accept": "application/json",
-          "content-type": "application/json"
-        },
-        body: cnv.jsonEncode({"product": product}));
-    return response.statusCode;
+  Future editSale(
+      id,
+      String product,
+      String supplier,
+      int imei,
+      bool pickedAtShop,
+      String deliveredBy,
+      String clientName,
+      int clientPhoneNumber,
+      String clientEmail,
+      String clientLocation,
+      String clientPin,
+      String soldBy,
+      String status,
+      String warrantyStatus,
+      int cash,
+      int mpesa,
+      int invoicedAmount,
+      String expenseName,
+      int expenseAmount) async {
+    String? token;
+    final prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Token $token'
+    };
+
+    var url = Uri.parse('${ApiConstants.baseUrl}${ApiConstants.editSale}/$id');
+    final data = SingleSaleResponseModel(
+      product: product,
+      supplier: supplier,
+      imei: imei,
+      pickedAtShop: pickedAtShop,
+      deliveredBy: deliveredBy,
+      clientName: clientName,
+      clientEmail: clientEmail,
+      clientPhoneNumber: clientPhoneNumber,
+      clientLocation: clientLocation,
+      clientPin: clientPin,
+      soldBy: soldBy,
+      status: status,
+      warrantyStatus: warrantyStatus,
+      cash: cash,
+      mpesa: mpesa,
+      invoicedAmount: invoicedAmount,
+      expenseName: expenseName,
+      expenseAmount: expenseAmount,
+    );
+
+    var response = await http.put(
+      url,
+      headers: requestHeaders,
+      body: cnv.jsonEncode(data.toJson()),
+    );
+    return response.body;
   }
 }

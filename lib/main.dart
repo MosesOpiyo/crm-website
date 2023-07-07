@@ -1,5 +1,7 @@
 import 'package:crm/Authentication/Login.dart';
+import 'package:crm/Pages/Reports/reports.dart';
 import 'package:crm/Pages/Sales/sales.dart';
+import 'package:crm/Pages/Service_centers/service_centers.dart';
 import 'package:crm/Pages/Stocks/stock.dart';
 import 'package:flutter/material.dart';
 
@@ -31,8 +33,8 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
       debugShowCheckedModeBanner: false,
       home: const Login(),
@@ -41,6 +43,8 @@ class MyApp extends StatelessWidget {
         Login.route: (context) => const Login(),
         Sales.route: (context) => const Sales(),
         Stocks.route: (context) => const Stocks(),
+        ServiceCenters.route: (context) => const ServiceCenters(),
+        Reports.route: (context) => const Reports(),
       },
     );
   }
