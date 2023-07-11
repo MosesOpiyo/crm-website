@@ -1,4 +1,4 @@
-import 'package:crm/Pages/Reports/reports.dart';
+import 'package:crm/Pages/Reports/suppliers.dart';
 import 'package:crm/Pages/Sales/sales.dart';
 import 'package:crm/Pages/Service_centers/service_centers.dart';
 import 'package:crm/Pages/Stocks/stock.dart';
@@ -125,7 +125,7 @@ class SideNav extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(Reports.route);
+              Navigator.of(context).pushNamed(Suppliers.route);
             },
             child: Container(
                 alignment: Alignment.centerLeft,
