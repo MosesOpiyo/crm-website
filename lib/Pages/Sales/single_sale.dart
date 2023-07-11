@@ -6,7 +6,7 @@ import 'package:crm/Pages/Sales/sales.dart';
 import 'package:flutter/material.dart';
 
 class SingleSale extends StatelessWidget {
-  static const String route = '/DashBoard/Single_Sales';
+  static const String route = '/DashBoard/Single_Sales/';
   final int saleId;
   const SingleSale({required this.saleId, super.key});
 
