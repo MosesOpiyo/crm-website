@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
-  static const String route = '';
+  static const String route = '/';
   const Login({super.key});
 
   @override
