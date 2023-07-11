@@ -8,6 +8,8 @@ class ApiConstants {
   static String editSale = 'Sales/editSale';
   static String allStocks = 'Stock/AllStocks';
   static String postStock = 'Stock/postStocks';
+  static String editStock = 'Stock/editStock';
+  static String newCenter = 'Service/newCenter';
   static String singleStock = 'Stock/SingleStock';
   static String serviceCenters = 'Service/allCenters';
   static String singleCenter = 'Service/singleCenter';
