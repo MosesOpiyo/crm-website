@@ -66,4 +66,35 @@ class Stockservice {
     );
     return response.body;
   }
+
+  Future editStock(
+      id,
+      String product,
+      String supplier,
+      String imei,
+      String checkedInPersonName,
+      String warrantyDuration,
+      String amount) async {
+    String? token;
+    final prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Token $token'
+    };
+    var url = Uri.parse('${ApiConstants.baseUrl}${ApiConstants.editStock}/$id');
+    final data = StockResponseModel(
+        product: product,
+        supplier: supplier,
+        imei: imei,
+        checkedInPersonName: checkedInPersonName,
+        warrantyDuration: warrantyDuration,
+        amount: amount);
+    var response = await http.put(
+      url,
+      headers: requestHeaders,
+      body: cnv.jsonEncode(data.toJson()),
+    );
+    return response.body;
+  }
 }
