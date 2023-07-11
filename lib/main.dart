@@ -1,8 +1,6 @@
 import 'package:crm/Authentication/Login.dart';
-import 'package:crm/Pages/Reports/reports.dart';
-import 'package:crm/Pages/Sales/sales.dart';
-import 'package:crm/Pages/Service_centers/service_centers.dart';
-import 'package:crm/Pages/Stocks/stock.dart';
+import 'package:crm/Transition/routes.dart';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -38,14 +36,8 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: const Login(),
+      onGenerateRoute: Routes.onGenerate,
       initialRoute: '',
-      routes: {
-        Login.route: (context) => const Login(),
-        Sales.route: (context) => const Sales(),
-        Stocks.route: (context) => const Stocks(),
-        ServiceCenters.route: (context) => const ServiceCenters(),
-        Reports.route: (context) => const Reports(),
-      },
     );
   }
 }
