@@ -1,6 +1,8 @@
+import 'package:crm/Pages/Stocks/stock.dart';
 import 'package:crm/Service/Stock/stock_service.dart';
 import 'package:crm/Service/User/user_service.dart';
 import 'package:crm/sub_components/side_nav.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 
 class SingleStock extends StatelessWidget {
@@ -35,6 +37,14 @@ class SingleStockBody extends StatefulWidget {
 }
 
 class _SingleStockBodyState extends State<SingleStockBody> {
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String product = '';
+  String supplier = '';
+  String imei = '';
+  String checkedInPersonName = '';
+  String warrantyDuration = '';
+  String amount = '';
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -134,617 +144,1033 @@ class _SingleStockBodyState extends State<SingleStockBody> {
                   padding: const EdgeInsets.only(top: 10),
                   child: Row(
                     children: [
-                      SizedBox(
-                        height: 40,
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.blue),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        side: const BorderSide(
-                                            color: Colors.blue)))),
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (ctx) => AlertDialog(
-                                        title: const Text("New Sale"),
-                                        shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0))),
-                                        content: Builder(
-                                          builder: (context) {
-                                            var height = MediaQuery.of(context)
-                                                .size
-                                                .height;
-                                            var width = MediaQuery.of(context)
-                                                .size
-                                                .width;
+                      FutureBuilder(
+                          future: Stockservice().getSingleStock(widget.id),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return SizedBox(
+                                height: 40,
+                                child: ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.blue),
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                side: const BorderSide(
+                                                    color: Colors.blue)))),
+                                    onPressed: () {
+                                      TextEditingController productController =
+                                          TextEditingController(
+                                              text: snapshot.data!.product);
+                                      TextEditingController supplierController =
+                                          TextEditingController(
+                                              text: snapshot.data!.supplier);
+                                      TextEditingController imeiController =
+                                          TextEditingController(
+                                              text: snapshot.data!.imei
+                                                  .toString());
+                                      TextEditingController
+                                          checkedInPersonNameController =
+                                          TextEditingController(
+                                              text: snapshot
+                                                  .data!.checkedInPersonName);
+                                      TextEditingController
+                                          warrantyDurationController =
+                                          TextEditingController(
+                                              text: snapshot
+                                                  .data!.warrantyDuration);
+                                      TextEditingController amountController =
+                                          TextEditingController(
+                                              text: snapshot.data!.amount
+                                                  .toString());
 
-                                            return SizedBox(
-                                              height: height - 200,
-                                              width: width - 600,
-                                              child: ListView(
-                                                shrinkWrap: true,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Column(
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 2,
-                                                                    bottom: 5),
-                                                            width: 330,
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: const Row(
+                                      showDialog(
+                                          context: context,
+                                          builder: (ctx) => AlertDialog(
+                                                title: const Text("Edit Stock"),
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10.0))),
+                                                content: Builder(
+                                                  builder: (context) {
+                                                    var height =
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .height;
+                                                    var width =
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width;
+
+                                                    return FutureBuilder(
+                                                        builder: (context,
+                                                            snapshot) {
+                                                      return SizedBox(
+                                                        height: height - 200,
+                                                        width: width - 600,
+                                                        child: ListView(
+                                                          shrinkWrap: true,
+                                                          children: [
+                                                            Row(
                                                               children: [
-                                                                Text(
-                                                                  "Product",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
+                                                                Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              2,
+                                                                          bottom:
+                                                                              5),
+                                                                      width:
+                                                                          330,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          const Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Product",
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "*",
+                                                                            style:
+                                                                                TextStyle(color: Colors.red),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          330,
+                                                                      child:
+                                                                          TextFormField(
+                                                                        decoration: InputDecoration(
+                                                                            border:
+                                                                                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                            labelText: 'Product'),
+                                                                        keyboardType:
+                                                                            TextInputType.text,
+                                                                        controller:
+                                                                            productController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                                Text(
-                                                                  "*",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .red),
-                                                                )
+                                                                const Spacer(),
+                                                                Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              2,
+                                                                          bottom:
+                                                                              5),
+                                                                      width:
+                                                                          330,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          const Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Supplier",
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "*",
+                                                                            style:
+                                                                                TextStyle(color: Colors.red),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          330,
+                                                                      child:
+                                                                          TextFormField(
+                                                                        decoration: InputDecoration(
+                                                                            border:
+                                                                                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                            labelText: 'Product'),
+                                                                        keyboardType:
+                                                                            TextInputType.text,
+                                                                        controller:
+                                                                            supplierController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ],
                                                             ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 330,
-                                                            child:
-                                                                TextFormField(
-                                                              decoration: InputDecoration(
-                                                                  border: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10.0)),
-                                                                  labelText:
-                                                                      'Product'),
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .text,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      const Spacer(),
-                                                      Column(
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 2,
-                                                                    bottom: 5),
-                                                            width: 330,
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: const Row(
+                                                            Row(
                                                               children: [
-                                                                Text(
-                                                                  "Supplier",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
+                                                                Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              2,
+                                                                          bottom:
+                                                                              5),
+                                                                      width:
+                                                                          330,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          const Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "IMEI",
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "*",
+                                                                            style:
+                                                                                TextStyle(color: Colors.red),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          330,
+                                                                      child:
+                                                                          TextFormField(
+                                                                        decoration: InputDecoration(
+                                                                            border:
+                                                                                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                            labelText: 'IMEI'),
+                                                                        keyboardType:
+                                                                            TextInputType.number,
+                                                                        controller:
+                                                                            imeiController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                                Text(
-                                                                  "*",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .red),
-                                                                )
+                                                                const Spacer(),
+                                                                Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              2,
+                                                                          bottom:
+                                                                              5),
+                                                                      width:
+                                                                          330,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          const Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Checked In By",
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "*",
+                                                                            style:
+                                                                                TextStyle(color: Colors.red),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          330,
+                                                                      child:
+                                                                          TextFormField(
+                                                                        decoration: InputDecoration(
+                                                                            border:
+                                                                                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                            labelText: 'Checked In By'),
+                                                                        keyboardType:
+                                                                            TextInputType.text,
+                                                                        controller:
+                                                                            checkedInPersonNameController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ],
                                                             ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 330,
-                                                            child:
-                                                                TextFormField(
-                                                              decoration: InputDecoration(
-                                                                  border: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10.0)),
-                                                                  labelText:
-                                                                      'Product'),
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .text,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Column(
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 2,
-                                                                    bottom: 5),
-                                                            width: 330,
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: const Row(
+                                                            Row(
                                                               children: [
-                                                                Text(
-                                                                  "IMEI",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
+                                                                Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              2,
+                                                                          bottom:
+                                                                              5),
+                                                                      width:
+                                                                          330,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          const Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Warranty Duration",
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "*",
+                                                                            style:
+                                                                                TextStyle(color: Colors.red),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          330,
+                                                                      child:
+                                                                          TextFormField(
+                                                                        decoration: InputDecoration(
+                                                                            border:
+                                                                                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                            labelText: 'Warranty Duration'),
+                                                                        keyboardType:
+                                                                            TextInputType.text,
+                                                                        controller:
+                                                                            warrantyDurationController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                                Text(
-                                                                  "*",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .red),
-                                                                )
+                                                                const Spacer(),
+                                                                Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              2,
+                                                                          bottom:
+                                                                              5),
+                                                                      width:
+                                                                          330,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          const Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Amount",
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "*",
+                                                                            style:
+                                                                                TextStyle(color: Colors.red),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          330,
+                                                                      child:
+                                                                          TextFormField(
+                                                                        decoration: InputDecoration(
+                                                                            border:
+                                                                                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                            labelText: 'Amount'),
+                                                                        keyboardType:
+                                                                            TextInputType.number,
+                                                                        controller:
+                                                                            amountController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ],
                                                             ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 330,
-                                                            child:
-                                                                TextFormField(
-                                                              decoration: InputDecoration(
-                                                                  border: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10.0)),
-                                                                  labelText:
-                                                                      'IMEI'),
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .text,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      const Spacer(),
-                                                      Column(
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 2,
-                                                                    bottom: 5),
-                                                            width: 330,
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: const Row(
-                                                              children: [
-                                                                Text(
-                                                                  "Delivered By",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  "*",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .red),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 330,
-                                                            child:
-                                                                TextFormField(
-                                                              decoration: InputDecoration(
-                                                                  border: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10.0)),
-                                                                  labelText:
-                                                                      'Delivered By'),
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .text,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Column(
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 2,
-                                                                    bottom: 5),
-                                                            width: 330,
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: const Row(
-                                                              children: [
-                                                                Text(
-                                                                  "Client Name",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  "*",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .red),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 330,
-                                                            child:
-                                                                TextFormField(
-                                                              decoration: InputDecoration(
-                                                                  border: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10.0)),
-                                                                  labelText:
-                                                                      'Client Name'),
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .text,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      const Spacer(),
-                                                      Column(
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 2,
-                                                                    bottom: 5),
-                                                            width: 330,
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: const Row(
-                                                              children: [
-                                                                Text(
-                                                                  "Status",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  "*",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .red),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 330,
-                                                            child:
-                                                                TextFormField(
-                                                              decoration: InputDecoration(
-                                                                  border: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10.0)),
-                                                                  labelText:
-                                                                      'Cash'),
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .text,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Column(
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 2,
-                                                                    bottom: 5),
-                                                            width: 330,
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: const Row(
-                                                              children: [
-                                                                Text(
-                                                                  "Cash",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  "*",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .red),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 330,
-                                                            child:
-                                                                TextFormField(
-                                                              decoration: InputDecoration(
-                                                                  border: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10.0)),
-                                                                  labelText:
-                                                                      'Cash'),
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .text,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      const Spacer(),
-                                                      Column(
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 2,
-                                                                    bottom: 5),
-                                                            width: 330,
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: const Row(
-                                                              children: [
-                                                                Text(
-                                                                  "Mpesa",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  "*",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .red),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 330,
-                                                            child:
-                                                                TextFormField(
-                                                              decoration: InputDecoration(
-                                                                  border: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10.0)),
-                                                                  labelText:
-                                                                      'Mpesa'),
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .text,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Column(
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 2,
-                                                                    bottom: 5),
-                                                            width: 330,
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: const Row(
-                                                              children: [
-                                                                Text(
-                                                                  "Invoiced Amount",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  "*",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .red),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 330,
-                                                            child:
-                                                                TextFormField(
-                                                              decoration: InputDecoration(
-                                                                  border: OutlineInputBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              10.0)),
-                                                                  labelText:
-                                                                      'Invoiced Amount'),
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .text,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      const Spacer(),
-                                                    ],
-                                                  ),
-                                                  Row(children: [
-                                                    const Spacer(),
-                                                    ElevatedButton(
-                                                        style: ButtonStyle(
-                                                            backgroundColor:
-                                                                MaterialStateProperty.all<Color>(
-                                                                    Colors
-                                                                        .blue),
-                                                            shape: MaterialStateProperty.all<
-                                                                    RoundedRectangleBorder>(
-                                                                RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10),
-                                                                    side: const BorderSide(
+                                                            const Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        top:
+                                                                            10)),
+                                                            Row(children: [
+                                                              const Spacer(),
+                                                              ElevatedButton(
+                                                                  style: ButtonStyle(
+                                                                      backgroundColor:
+                                                                          MaterialStateProperty.all<Color>(Colors
+                                                                              .blue),
+                                                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                              10),
+                                                                          side: const BorderSide(
+                                                                              color: Colors
+                                                                                  .blue)))),
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.of(
+                                                                            ctx)
+                                                                        .pop();
+                                                                    product =
+                                                                        productController
+                                                                            .text;
+                                                                    supplier =
+                                                                        supplierController
+                                                                            .text;
+                                                                    imei =
+                                                                        imeiController
+                                                                            .text;
+
+                                                                    checkedInPersonName =
+                                                                        checkedInPersonNameController
+                                                                            .text;
+                                                                    warrantyDuration =
+                                                                        warrantyDurationController
+                                                                            .text;
+                                                                    amount =
+                                                                        amountController
+                                                                            .text;
+
+                                                                    Stockservice().editStock(
+                                                                        widget
+                                                                            .id,
+                                                                        product,
+                                                                        supplier,
+                                                                        imei,
+                                                                        checkedInPersonName,
+                                                                        warrantyDuration,
+                                                                        amount);
+                                                                    Navigator.push(
+                                                                        context,
+                                                                        PageTransition(
+                                                                            type:
+                                                                                PageTransitionType.fade,
+                                                                            child: const Stocks()));
+                                                                  },
+                                                                  child: const Text(
+                                                                      "Edit",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            15,
                                                                         color: Colors
-                                                                            .blue)))),
-                                                        onPressed: () {},
-                                                        child: const Text("Add",
-                                                            style: TextStyle(
-                                                              fontSize: 15,
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ))),
-                                                    const Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 10)),
-                                                    ElevatedButton(
-                                                        style: ButtonStyle(
-                                                            backgroundColor:
-                                                                MaterialStateProperty.all<Color>(
-                                                                    Colors
-                                                                        .white),
-                                                            shape: MaterialStateProperty.all<
-                                                                    RoundedRectangleBorder>(
-                                                                RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10),
-                                                                    side: const BorderSide(
+                                                                            .white,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                      ))),
+                                                              const Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              10)),
+                                                              ElevatedButton(
+                                                                  style: ButtonStyle(
+                                                                      backgroundColor:
+                                                                          MaterialStateProperty.all<Color>(Colors
+                                                                              .white),
+                                                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                              10),
+                                                                          side: const BorderSide(
+                                                                              color: Colors
+                                                                                  .blue)))),
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.of(
+                                                                            ctx)
+                                                                        .pop();
+                                                                  },
+                                                                  child: const Text(
+                                                                      "Cancel",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            15,
                                                                         color: Colors
-                                                                            .blue)))),
-                                                        onPressed: () {
-                                                          Navigator.of(ctx)
-                                                              .pop();
-                                                        },
-                                                        child: const Text("Cancel",
-                                                            style: TextStyle(
-                                                              fontSize: 15,
-                                                              color:
-                                                                  Colors.blue,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            )))
-                                                  ])
-                                                ],
-                                              ),
-                                            );
-                                          },
+                                                                            .blue,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                      )))
+                                                            ])
+                                                          ],
+                                                        ),
+                                                      );
+                                                    });
+                                                  },
+                                                ),
+                                              ));
+                                    },
+                                    child: const Row(
+                                      children: [
+                                        Icon(
+                                          Icons.edit_outlined,
+                                          color: Colors.white,
                                         ),
-                                      ));
-                            },
-                            child: const Row(
-                              children: [
-                                Icon(
-                                  Icons.edit_outlined,
-                                  color: Colors.white,
-                                ),
-                                Text("Edit Sale",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w400,
-                                    ))
-                              ],
-                            )),
-                      ),
+                                        Text("Edit Sale",
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400,
+                                            ))
+                                      ],
+                                    )),
+                              );
+                            } else {
+                              return SizedBox(
+                                height: 40,
+                                child: ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Colors.blue),
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                side: const BorderSide(
+                                                    color: Colors.blue)))),
+                                    onPressed: () {
+                                      TextEditingController productController =
+                                          TextEditingController();
+                                      TextEditingController supplierController =
+                                          TextEditingController();
+                                      TextEditingController imeiController =
+                                          TextEditingController();
+                                      TextEditingController
+                                          checkedInPersonNameController =
+                                          TextEditingController();
+                                      TextEditingController
+                                          warrantyDurationController =
+                                          TextEditingController();
+                                      TextEditingController amountController =
+                                          TextEditingController();
+
+                                      showDialog(
+                                          context: context,
+                                          builder: (ctx) => AlertDialog(
+                                                title: const Text("Edit Stock"),
+                                                shape:
+                                                    const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10.0))),
+                                                content: Builder(
+                                                  builder: (context) {
+                                                    var height =
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .height;
+                                                    var width =
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width;
+
+                                                    return FutureBuilder(
+                                                        builder: (context,
+                                                            snapshot) {
+                                                      return SizedBox(
+                                                        height: height - 200,
+                                                        width: width - 600,
+                                                        child: ListView(
+                                                          shrinkWrap: true,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              2,
+                                                                          bottom:
+                                                                              5),
+                                                                      width:
+                                                                          330,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          const Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Product",
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "*",
+                                                                            style:
+                                                                                TextStyle(color: Colors.red),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          330,
+                                                                      child:
+                                                                          TextFormField(
+                                                                        decoration: InputDecoration(
+                                                                            border:
+                                                                                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                            labelText: 'Product'),
+                                                                        keyboardType:
+                                                                            TextInputType.text,
+                                                                        controller:
+                                                                            productController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                const Spacer(),
+                                                                Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              2,
+                                                                          bottom:
+                                                                              5),
+                                                                      width:
+                                                                          330,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          const Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Supplier",
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "*",
+                                                                            style:
+                                                                                TextStyle(color: Colors.red),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          330,
+                                                                      child:
+                                                                          TextFormField(
+                                                                        decoration: InputDecoration(
+                                                                            border:
+                                                                                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                            labelText: 'Product'),
+                                                                        keyboardType:
+                                                                            TextInputType.text,
+                                                                        controller:
+                                                                            supplierController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              2,
+                                                                          bottom:
+                                                                              5),
+                                                                      width:
+                                                                          330,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          const Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "IMEI",
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "*",
+                                                                            style:
+                                                                                TextStyle(color: Colors.red),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          330,
+                                                                      child:
+                                                                          TextFormField(
+                                                                        decoration: InputDecoration(
+                                                                            border:
+                                                                                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                            labelText: 'IMEI'),
+                                                                        keyboardType:
+                                                                            TextInputType.number,
+                                                                        controller:
+                                                                            imeiController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                const Spacer(),
+                                                                Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              2,
+                                                                          bottom:
+                                                                              5),
+                                                                      width:
+                                                                          330,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          const Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Checked In By",
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "*",
+                                                                            style:
+                                                                                TextStyle(color: Colors.red),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          330,
+                                                                      child:
+                                                                          TextFormField(
+                                                                        decoration: InputDecoration(
+                                                                            border:
+                                                                                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                            labelText: 'Checked In By'),
+                                                                        keyboardType:
+                                                                            TextInputType.text,
+                                                                        controller:
+                                                                            checkedInPersonNameController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              2,
+                                                                          bottom:
+                                                                              5),
+                                                                      width:
+                                                                          330,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          const Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Warranty Duration",
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "*",
+                                                                            style:
+                                                                                TextStyle(color: Colors.red),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          330,
+                                                                      child:
+                                                                          TextFormField(
+                                                                        decoration: InputDecoration(
+                                                                            border:
+                                                                                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                            labelText: 'Warranty Duration'),
+                                                                        keyboardType:
+                                                                            TextInputType.text,
+                                                                        controller:
+                                                                            warrantyDurationController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                const Spacer(),
+                                                                Column(
+                                                                  children: [
+                                                                    Container(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              2,
+                                                                          bottom:
+                                                                              5),
+                                                                      width:
+                                                                          330,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          const Row(
+                                                                        children: [
+                                                                          Text(
+                                                                            "Amount",
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            "*",
+                                                                            style:
+                                                                                TextStyle(color: Colors.red),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          330,
+                                                                      child:
+                                                                          TextFormField(
+                                                                        decoration: InputDecoration(
+                                                                            border:
+                                                                                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                                                                            labelText: 'Amount'),
+                                                                        keyboardType:
+                                                                            TextInputType.number,
+                                                                        controller:
+                                                                            amountController,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            const Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        top:
+                                                                            10)),
+                                                            Row(children: [
+                                                              const Spacer(),
+                                                              ElevatedButton(
+                                                                  style: ButtonStyle(
+                                                                      backgroundColor:
+                                                                          MaterialStateProperty.all<Color>(Colors
+                                                                              .blue),
+                                                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                              10),
+                                                                          side: const BorderSide(
+                                                                              color: Colors
+                                                                                  .blue)))),
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.of(
+                                                                            ctx)
+                                                                        .pop();
+                                                                    product =
+                                                                        productController
+                                                                            .text;
+                                                                    supplier =
+                                                                        supplierController
+                                                                            .text;
+                                                                    imei =
+                                                                        imeiController
+                                                                            .text;
+
+                                                                    checkedInPersonName =
+                                                                        checkedInPersonNameController
+                                                                            .text;
+                                                                    warrantyDuration =
+                                                                        warrantyDurationController
+                                                                            .text;
+                                                                    amount =
+                                                                        amountController
+                                                                            .text;
+
+                                                                    Stockservice().editStock(
+                                                                        widget
+                                                                            .id,
+                                                                        product,
+                                                                        supplier,
+                                                                        imei,
+                                                                        checkedInPersonName,
+                                                                        warrantyDuration,
+                                                                        amount);
+                                                                  },
+                                                                  child: const Text(
+                                                                      "Edit",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            15,
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                      ))),
+                                                              const Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              10)),
+                                                              ElevatedButton(
+                                                                  style: ButtonStyle(
+                                                                      backgroundColor:
+                                                                          MaterialStateProperty.all<Color>(Colors
+                                                                              .white),
+                                                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                              10),
+                                                                          side: const BorderSide(
+                                                                              color: Colors
+                                                                                  .blue)))),
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.of(
+                                                                            ctx)
+                                                                        .pop();
+                                                                  },
+                                                                  child: const Text(
+                                                                      "Cancel",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            15,
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                      )))
+                                                            ])
+                                                          ],
+                                                        ),
+                                                      );
+                                                    });
+                                                  },
+                                                ),
+                                              ));
+                                    },
+                                    child: const Row(
+                                      children: [
+                                        Icon(
+                                          Icons.edit_outlined,
+                                          color: Colors.white,
+                                        ),
+                                        Text("Edit Sale",
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400,
+                                            ))
+                                      ],
+                                    )),
+                              );
+                            }
+                          }),
                       const Padding(padding: EdgeInsets.only(right: 15)),
                       SizedBox(
                         height: 40,
