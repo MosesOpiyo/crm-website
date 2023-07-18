@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:convert' as cnv;
 import 'dart:io';
 import 'package:crm/Constants/constants.dart';
@@ -21,6 +23,26 @@ class Stockservice {
         .map((dynamic item) => SingleStockResponseModel.fromJson(item))
         .toList();
     return sales;
+  }
+
+  Future getStockValue() async {
+    String? token;
+    final prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');
+    var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.allStockValue);
+    var response = await http.get(
+      url,
+      headers: {HttpHeaders.authorizationHeader: "Token $token"},
+    );
+    int total = 0;
+    List<dynamic> body = cnv.jsonDecode(response.body);
+    var sales = body
+        .map((dynamic item) => SingleStockResponseModel.fromJson(item))
+        .toList();
+    for (var sale in sales) {
+      total += sale.amount;
+    }
+    return [total, sales];
   }
 
   Future<SingleStockResponseModel> getSingleStock(id) async {

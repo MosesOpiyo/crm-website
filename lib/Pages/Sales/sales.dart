@@ -6,6 +6,7 @@ import 'package:crm/Service/Sales/sales_service.dart';
 import 'package:crm/Service/User/user_service.dart';
 import 'package:crm/sub_components/side_nav.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Sales extends StatelessWidget {
   static const String route = '/DashBoard/Sales';
@@ -80,6 +81,8 @@ class _SalesBodyState extends State<SalesBody> {
   TextEditingController invoicedAmountController = TextEditingController();
   TextEditingController expenseNameController = TextEditingController();
   TextEditingController expenseAmountController = TextEditingController();
+
+  var formatter = NumberFormat('###,###,000');
 
   newSalesForm() {
     int activeStepIndex = 0;
@@ -1021,20 +1024,34 @@ class _SalesBodyState extends State<SalesBody> {
                             decoration: BoxDecoration(
                                 color: Colors.blue,
                                 borderRadius: BorderRadius.circular(10)),
-                            child: const Column(
+                            child: Column(
                               children: [
-                                Text("Sales",
+                                const Text("Sales",
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w400,
                                     )),
-                                Text("Ksh 100,000",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w400,
-                                    )),
+                                FutureBuilder(
+                                    future: Salesservice().getSalesValue(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                            "Ksh ${formatter.format(snapshot.data[0])}",
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400,
+                                            ));
+                                      } else {
+                                        return const Text("Ksh 0",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400,
+                                            ));
+                                      }
+                                    })
                               ],
                             )),
                         const Spacer(),
@@ -1046,20 +1063,34 @@ class _SalesBodyState extends State<SalesBody> {
                             decoration: BoxDecoration(
                                 color: Colors.blue,
                                 borderRadius: BorderRadius.circular(10)),
-                            child: const Column(
+                            child: Column(
                               children: [
-                                Text("Sold Units",
+                                const Text("Sold Units",
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w400,
                                     )),
-                                Text("100 Units",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w400,
-                                    )),
+                                FutureBuilder(
+                                    future: Salesservice().getSales(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                            "${snapshot.data.length} Units",
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400,
+                                            ));
+                                      } else {
+                                        return const Text("0 Units",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400,
+                                            ));
+                                      }
+                                    })
                               ],
                             )),
                         const Spacer(),
@@ -1071,20 +1102,34 @@ class _SalesBodyState extends State<SalesBody> {
                             decoration: BoxDecoration(
                                 color: Colors.blue,
                                 borderRadius: BorderRadius.circular(10)),
-                            child: const Column(
+                            child: Column(
                               children: [
-                                Text("Pending Units",
+                                const Text("Units At Shop",
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w400,
                                     )),
-                                Text("20 Units",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w400,
-                                    )),
+                                FutureBuilder(
+                                    future: Salesservice().getSalesAtShop(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                            "${snapshot.data.length} Units",
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400,
+                                            ));
+                                      } else {
+                                        return const Text("0 Units",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400,
+                                            ));
+                                      }
+                                    })
                               ],
                             )),
                         const Spacer(),
@@ -1096,20 +1141,34 @@ class _SalesBodyState extends State<SalesBody> {
                             decoration: BoxDecoration(
                                 color: Colors.blue,
                                 borderRadius: BorderRadius.circular(10)),
-                            child: const Column(
+                            child: Column(
                               children: [
-                                Text("Sales",
+                                const Text("Clients",
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w400,
                                     )),
-                                Text("Ksh 100,000",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w400,
-                                    )),
+                                FutureBuilder(
+                                    future: Salesservice().getSalesClients(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                            "${snapshot.data.length} Clients",
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400,
+                                            ));
+                                      } else {
+                                        return const Text("0 Clients",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w400,
+                                            ));
+                                      }
+                                    })
                               ],
                             )),
                         const Spacer(),

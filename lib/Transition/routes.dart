@@ -1,3 +1,4 @@
+import 'package:crm/Pages/Invoice/invoices.dart';
 import 'package:crm/Pages/Reports/clients.dart';
 import 'package:crm/Pages/Reports/products.dart';
 import 'package:crm/Pages/Reports/suppliers.dart';
@@ -29,6 +30,8 @@ class Routes {
         return FadeRoute(page: const Clients());
       case Products.route:
         return FadeRoute(page: const Products());
+      case Invoices.route:
+        return FadeRoute(page: const Invoices());
     }
     return null;
   }

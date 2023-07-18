@@ -1,3 +1,4 @@
+import 'package:crm/Pages/Invoice/invoices.dart';
 import 'package:crm/Pages/Reports/suppliers.dart';
 import 'package:crm/Pages/Sales/sales.dart';
 import 'package:crm/Pages/Service_centers/service_centers.dart';
@@ -154,7 +155,9 @@ class SideNav extends StatelessWidget {
                 )),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(Invoices.route);
+            },
             child: Container(
                 alignment: Alignment.centerLeft,
                 width: size.width * .2,

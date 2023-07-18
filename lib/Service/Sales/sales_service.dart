@@ -22,6 +22,55 @@ class Salesservice {
     return sales;
   }
 
+  Future getSalesAtShop() async {
+    String? token;
+    final prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');
+    var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.allSalesAtShop);
+    var response = await http.get(
+      url,
+      headers: {HttpHeaders.authorizationHeader: "Token $token"},
+    );
+    List<dynamic> body = cnv.jsonDecode(response.body);
+    var sales =
+        body.map((dynamic item) => SaleResponseModel.fromJson(item)).toList();
+    return sales;
+  }
+
+  Future getSalesClients() async {
+    String? token;
+    final prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');
+    var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.allSalesClients);
+    var response = await http.get(
+      url,
+      headers: {HttpHeaders.authorizationHeader: "Token $token"},
+    );
+    List<dynamic> body = cnv.jsonDecode(response.body);
+    var sales = body.map((dynamic item) => item).toList();
+    return sales;
+  }
+
+  Future getSalesValue() async {
+    String? token;
+    final prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');
+    var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.allSales);
+    var response = await http.get(
+      url,
+      headers: {HttpHeaders.authorizationHeader: "Token $token"},
+    );
+    List<dynamic> body = cnv.jsonDecode(response.body);
+    int totalSales = 0;
+    var sales =
+        body.map((dynamic item) => SaleResponseModel.fromJson(item)).toList();
+
+    for (var sale in sales) {
+      totalSales += (sale.cash + sale.mpesa + sale.invoicedAmount);
+    }
+    return [totalSales];
+  }
+
   Future<SingleSaleResponseModel> getSingleSale(id) async {
     String? token;
     final prefs = await SharedPreferences.getInstance();

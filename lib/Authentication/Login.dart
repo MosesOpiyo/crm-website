@@ -47,6 +47,24 @@ class _LoginState extends State<Login> {
     setState(() {});
   }
 
+  showSuccessSnackBar() {
+    final snackBar = SnackBar(
+      backgroundColor: Colors.green,
+      behavior: SnackBarBehavior.floating,
+      margin: const EdgeInsets.all(10),
+      content: const Text('Login Successful. Welcome.'),
+      action: SnackBarAction(
+        label: 'OK',
+        textColor: Colors.white,
+        onPressed: () {
+          setState(() {});
+        },
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    setState(() {});
+  }
+
   void toggle() {
     setState(() {
       hidePassword = !hidePassword;
@@ -185,6 +203,7 @@ class _LoginState extends State<Login> {
                                         .then((response) async => {
                                               if (response.token != "")
                                                 {
+                                                  showSuccessSnackBar(),
                                                   setToken(response.token),
                                                   Navigator.of(context)
                                                       .pushNamed(Sales.route)

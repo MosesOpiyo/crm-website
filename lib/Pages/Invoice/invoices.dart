@@ -1,16 +1,14 @@
-// ignore_for_file: unrelated_type_equality_checks
-
-import 'package:crm/Pages/Stocks/single_stock.dart';
-import 'package:crm/Service/Stock/stock_service.dart';
+import 'package:crm/Pages/Invoice/single_invoice.dart';
+import 'package:crm/Service/Invoice/invoice_service.dart';
 import 'package:crm/Service/User/user_service.dart';
-import 'package:crm/sub_components/side_nav.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:crm/sub_components/side_nav.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
-class Stocks extends StatelessWidget {
-  static const String route = '/DashBoard/Stocks';
-  const Stocks({super.key});
+class Invoices extends StatelessWidget {
+  static const String route = '/DashBoard/Invoices';
+  const Invoices({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,7 @@ class Stocks extends StatelessWidget {
             child: SideNav(),
           ),
           SizedBox(
-            child: StocksBody(),
+            child: InvoicesBody(),
           )
         ],
       ),
@@ -29,29 +27,37 @@ class Stocks extends StatelessWidget {
   }
 }
 
-class StocksBody extends StatefulWidget {
-  const StocksBody({super.key});
+class InvoicesBody extends StatefulWidget {
+  const InvoicesBody({super.key});
 
   @override
-  State<StocksBody> createState() => _StocksBodyState();
+  State<InvoicesBody> createState() => _InvoicesBodyState();
 }
 
-class _StocksBodyState extends State<StocksBody> {
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  Future<SharedPreferences> prefs = SharedPreferences.getInstance();
-  String product = '';
-  String supplier = '';
-  String imei = '';
-  String checkedInPersonName = '';
-  String warrantyDuration = '';
-  String amount = '';
-  TextEditingController productController = TextEditingController();
+class _InvoicesBodyState extends State<InvoicesBody> {
+  String supplierName = '';
+  int amount = 0;
+  int poNumber = 0;
+  String dueDate = '';
+  int balance = 0;
+  String paidMoneyFrom = '';
+  String paymentMethod = '';
+  int chequeNoOrRef = 0;
+  String invoiceDate = '';
+  int invoiceNumber = 0;
+  int amountPaid = 0;
+
   TextEditingController supplierController = TextEditingController();
-  TextEditingController imeiController = TextEditingController();
-  TextEditingController checkedInPersonNameController = TextEditingController();
-  TextEditingController warrantyDurationController = TextEditingController();
   TextEditingController amountController = TextEditingController();
-  int total = 0;
+  TextEditingController poNumberController = TextEditingController();
+  TextEditingController dueDateController = TextEditingController();
+  TextEditingController balanceController = TextEditingController();
+  TextEditingController paidMoneyFromController = TextEditingController();
+  TextEditingController paymentMethodController = TextEditingController();
+  TextEditingController chequeOrReferenceController = TextEditingController();
+  TextEditingController invoiceDateController = TextEditingController();
+  TextEditingController invoiceNumberController = TextEditingController();
+  TextEditingController paidAmountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +73,7 @@ class _StocksBodyState extends State<StocksBody> {
                   Container(
                     margin: const EdgeInsets.all(15),
                     child: const Text(
-                      "Stocks Panel",
+                      "Invoices Panel",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                     ),
@@ -126,33 +132,20 @@ class _StocksBodyState extends State<StocksBody> {
                         decoration: BoxDecoration(
                             color: Colors.blue,
                             borderRadius: BorderRadius.circular(10)),
-                        child: Column(
+                        child: const Column(
                           children: [
-                            const Text("Sold Stocks Value",
+                            Text("Sold Stocks Value",
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w400,
                                 )),
-                            FutureBuilder(
-                                future: Stockservice().getStockValue(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Text("Ksh ${snapshot.data[0]}",
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w400,
-                                        ));
-                                  } else {
-                                    return const Text("Ksh 0",
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w400,
-                                        ));
-                                  }
-                                })
+                            Text("Ksh 100,000",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                )),
                           ],
                         )),
                     const Spacer(),
@@ -255,7 +248,7 @@ class _StocksBodyState extends State<StocksBody> {
                             showDialog(
                                 context: context,
                                 builder: (ctx) => AlertDialog(
-                                      title: const Text("New Stock"),
+                                      title: const Text("New Invoice"),
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10.0))),
@@ -275,60 +268,6 @@ class _StocksBodyState extends State<StocksBody> {
                                               children: [
                                                 Row(
                                                   children: [
-                                                    Column(
-                                                      children: [
-                                                        Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 2,
-                                                                  bottom: 5),
-                                                          width: 330,
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: const Row(
-                                                            children: [
-                                                              Text(
-                                                                "Product",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                "*",
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .red),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 330,
-                                                          child: TextFormField(
-                                                            decoration: InputDecoration(
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10.0)),
-                                                                labelText:
-                                                                    'Product'),
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                            controller:
-                                                                productController,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const Spacer(),
                                                     Column(
                                                       children: [
                                                         Container(
@@ -372,180 +311,12 @@ class _StocksBodyState extends State<StocksBody> {
                                                                         BorderRadius.circular(
                                                                             10.0)),
                                                                 labelText:
-                                                                    'Product'),
+                                                                    'Supplier'),
                                                             keyboardType:
                                                                 TextInputType
                                                                     .text,
                                                             controller:
                                                                 supplierController,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Column(
-                                                      children: [
-                                                        Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 2,
-                                                                  bottom: 5),
-                                                          width: 330,
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: const Row(
-                                                            children: [
-                                                              Text(
-                                                                "IMEI",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                "*",
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .red),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 330,
-                                                          child: TextFormField(
-                                                            decoration: InputDecoration(
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10.0)),
-                                                                labelText:
-                                                                    'IMEI'),
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .number,
-                                                            controller:
-                                                                imeiController,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const Spacer(),
-                                                    Column(
-                                                      children: [
-                                                        Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 2,
-                                                                  bottom: 5),
-                                                          width: 330,
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: const Row(
-                                                            children: [
-                                                              Text(
-                                                                "Checked In By",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                "*",
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .red),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 330,
-                                                          child: TextFormField(
-                                                            decoration: InputDecoration(
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10.0)),
-                                                                labelText:
-                                                                    'Checked In By'),
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                            controller:
-                                                                checkedInPersonNameController,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Column(
-                                                      children: [
-                                                        Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 2,
-                                                                  bottom: 5),
-                                                          width: 330,
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: const Row(
-                                                            children: [
-                                                              Text(
-                                                                "Warranty Duration",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                "*",
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .red),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 330,
-                                                          child: TextFormField(
-                                                            decoration: InputDecoration(
-                                                                border: OutlineInputBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10.0)),
-                                                                labelText:
-                                                                    'Warranty Duration'),
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .text,
-                                                            controller:
-                                                                warrantyDurationController,
                                                           ),
                                                         ),
                                                       ],
@@ -597,13 +368,601 @@ class _StocksBodyState extends State<StocksBody> {
                                                                     'Amount'),
                                                             keyboardType:
                                                                 TextInputType
-                                                                    .number,
+                                                                    .text,
                                                             controller:
                                                                 amountController,
                                                           ),
                                                         ),
                                                       ],
                                                     ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 2,
+                                                                  bottom: 5),
+                                                          width: 330,
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: const Row(
+                                                            children: [
+                                                              Text(
+                                                                "P.O Number",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                "*",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 330,
+                                                          child: TextFormField(
+                                                            decoration: InputDecoration(
+                                                                border: OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10.0)),
+                                                                labelText:
+                                                                    'P.O Number'),
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .number,
+                                                            controller:
+                                                                poNumberController,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const Spacer(),
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 2,
+                                                                  bottom: 5),
+                                                          width: 330,
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: const Row(
+                                                            children: [
+                                                              Text(
+                                                                "Due Date",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                "*",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 330,
+                                                          child: TextFormField(
+                                                            decoration: InputDecoration(
+                                                                border: OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10.0)),
+                                                                labelText:
+                                                                    'Due Date'),
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .text,
+                                                            controller:
+                                                                dueDateController,
+                                                            onTap: () async {
+                                                              DateTime? pickedDate = await showDatePicker(
+                                                                  context:
+                                                                      context,
+                                                                  initialDate:
+                                                                      DateTime
+                                                                          .now(),
+                                                                  firstDate:
+                                                                      DateTime(
+                                                                          1950),
+                                                                  lastDate:
+                                                                      DateTime(
+                                                                          2100));
+
+                                                              if (pickedDate !=
+                                                                  null) {
+                                                                String
+                                                                    formattedDate =
+                                                                    DateFormat(
+                                                                            'yyyy-MM-dd')
+                                                                        .format(
+                                                                            pickedDate);
+                                                                setState(() {
+                                                                  dueDateController
+                                                                          .text =
+                                                                      formattedDate;
+                                                                });
+                                                              } else {}
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 2,
+                                                                  bottom: 5),
+                                                          width: 330,
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: const Row(
+                                                            children: [
+                                                              Text(
+                                                                "Balance",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                "*",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 330,
+                                                          child: TextFormField(
+                                                            decoration: InputDecoration(
+                                                                border: OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10.0)),
+                                                                labelText:
+                                                                    'Balance'),
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .text,
+                                                            controller:
+                                                                balanceController,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const Spacer(),
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 2,
+                                                                  bottom: 5),
+                                                          width: 330,
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: const Row(
+                                                            children: [
+                                                              Text(
+                                                                "Paid Money From",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                "*",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 330,
+                                                          child: TextFormField(
+                                                              decoration: InputDecoration(
+                                                                  border: OutlineInputBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0)),
+                                                                  labelText:
+                                                                      'Paid Money From'),
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .number,
+                                                              controller:
+                                                                  paidMoneyFromController,
+                                                              onTap: () async {
+                                                                DateTime? pickedDate = await showDatePicker(
+                                                                    context:
+                                                                        context,
+                                                                    initialDate:
+                                                                        DateTime
+                                                                            .now(),
+                                                                    firstDate:
+                                                                        DateTime(
+                                                                            1950),
+                                                                    lastDate:
+                                                                        DateTime(
+                                                                            2100));
+
+                                                                if (pickedDate !=
+                                                                    null) {
+                                                                  String
+                                                                      formattedDate =
+                                                                      DateFormat(
+                                                                              'yyyy-MM-dd')
+                                                                          .format(
+                                                                              pickedDate);
+                                                                  setState(() {
+                                                                    paidMoneyFromController
+                                                                            .text =
+                                                                        formattedDate;
+                                                                  });
+                                                                } else {}
+                                                              }),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 2,
+                                                                  bottom: 5),
+                                                          width: 330,
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: const Row(
+                                                            children: [
+                                                              Text(
+                                                                "Payment Method",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                "*",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 330,
+                                                          child: TextFormField(
+                                                            decoration: InputDecoration(
+                                                                border: OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10.0)),
+                                                                labelText:
+                                                                    'Payment Method'),
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .text,
+                                                            controller:
+                                                                paymentMethodController,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const Spacer(),
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 2,
+                                                                  bottom: 5),
+                                                          width: 330,
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: const Row(
+                                                            children: [
+                                                              Text(
+                                                                "Cheque or Reference",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                "*",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 330,
+                                                          child: TextFormField(
+                                                            decoration: InputDecoration(
+                                                                border: OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10.0)),
+                                                                labelText:
+                                                                    'Cheque or Reference'),
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .number,
+                                                            controller:
+                                                                chequeOrReferenceController,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 2,
+                                                                  bottom: 5),
+                                                          width: 330,
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: const Row(
+                                                            children: [
+                                                              Text(
+                                                                "Invoice Date",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                "*",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 330,
+                                                          child: TextFormField(
+                                                            decoration: InputDecoration(
+                                                                border: OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10.0)),
+                                                                labelText:
+                                                                    'Invoice Date'),
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .text,
+                                                            controller:
+                                                                invoiceDateController,
+                                                            onTap: () async {
+                                                              DateTime? pickedDate = await showDatePicker(
+                                                                  context:
+                                                                      context,
+                                                                  initialDate:
+                                                                      DateTime
+                                                                          .now(),
+                                                                  firstDate:
+                                                                      DateTime(
+                                                                          1950),
+                                                                  lastDate:
+                                                                      DateTime(
+                                                                          2100));
+
+                                                              if (pickedDate !=
+                                                                  null) {
+                                                                String
+                                                                    formattedDate =
+                                                                    DateFormat(
+                                                                            'yyyy-MM-dd')
+                                                                        .format(
+                                                                            pickedDate);
+                                                                setState(() {
+                                                                  invoiceDateController
+                                                                          .text =
+                                                                      formattedDate;
+                                                                });
+                                                              } else {}
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const Spacer(),
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 2,
+                                                                  bottom: 5),
+                                                          width: 330,
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: const Row(
+                                                            children: [
+                                                              Text(
+                                                                "Invoice Number",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                "*",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 330,
+                                                          child: TextFormField(
+                                                            decoration: InputDecoration(
+                                                                border: OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10.0)),
+                                                                labelText:
+                                                                    'Invoice Number'),
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .number,
+                                                            controller:
+                                                                invoiceNumberController,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 2,
+                                                                  bottom: 5),
+                                                          width: 330,
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: const Row(
+                                                            children: [
+                                                              Text(
+                                                                "Amount Paid",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .left,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                              Text(
+                                                                "*",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 330,
+                                                          child: TextFormField(
+                                                            decoration: InputDecoration(
+                                                                border: OutlineInputBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10.0)),
+                                                                labelText:
+                                                                    'Amount Paid'),
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .text,
+                                                            controller:
+                                                                paidAmountController,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const Spacer(),
                                                   ],
                                                 ),
                                                 const Padding(
@@ -626,33 +985,56 @@ class _StocksBodyState extends State<StocksBody> {
                                                                   side: const BorderSide(
                                                                       color: Colors.blue)))),
                                                       onPressed: () {
-                                                        Navigator.of(ctx).pop();
-                                                        product =
-                                                            productController
-                                                                .text;
-                                                        supplier =
+                                                        supplierName =
                                                             supplierController
                                                                 .text;
-                                                        imei =
-                                                            imeiController.text;
-
-                                                        checkedInPersonName =
-                                                            checkedInPersonNameController
-                                                                .text;
-                                                        warrantyDuration =
-                                                            warrantyDurationController
-                                                                .text;
-                                                        amount =
+                                                        amount = int.parse(
                                                             amountController
+                                                                .text);
+                                                        poNumber = int.parse(
+                                                            poNumberController
+                                                                .text);
+                                                        dueDate =
+                                                            dueDateController
                                                                 .text;
-
-                                                        Stockservice().postStock(
-                                                            product,
-                                                            supplier,
-                                                            imei,
-                                                            checkedInPersonName,
-                                                            warrantyDuration,
-                                                            amount);
+                                                        balance = int.parse(
+                                                            balanceController
+                                                                .text);
+                                                        paidMoneyFrom =
+                                                            paidMoneyFromController
+                                                                .text;
+                                                        paymentMethod =
+                                                            paymentMethodController
+                                                                .text;
+                                                        chequeNoOrRef = int.parse(
+                                                            chequeOrReferenceController
+                                                                .text);
+                                                        invoiceDate =
+                                                            invoiceDateController
+                                                                .text;
+                                                        invoiceNumber = int.parse(
+                                                            invoiceNumberController
+                                                                .text);
+                                                        amountPaid = int.parse(
+                                                            amountController
+                                                                .text);
+                                                        InvoiceService()
+                                                            .postInvoice(
+                                                                supplierName,
+                                                                amount,
+                                                                poNumber,
+                                                                dueDate,
+                                                                balance,
+                                                                paidMoneyFrom,
+                                                                paymentMethod,
+                                                                chequeNoOrRef,
+                                                                invoiceDate,
+                                                                invoiceNumber,
+                                                                amountPaid)
+                                                            .then((value) {
+                                                          Navigator.of(ctx)
+                                                              .pop();
+                                                        });
                                                       },
                                                       child: const Text("Add",
                                                           style: TextStyle(
@@ -702,7 +1084,7 @@ class _StocksBodyState extends State<StocksBody> {
                                 Icons.add,
                                 color: Colors.white,
                               ),
-                              Text("Add Sale",
+                              Text("Add Invoice",
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: Colors.white,
@@ -732,7 +1114,7 @@ class _StocksBodyState extends State<StocksBody> {
                 margin: const EdgeInsets.all(10),
                 width: size.width,
                 child: FutureBuilder(
-                    future: Stockservice().getStocks(),
+                    future: InvoiceService().getInvoices(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return ListView(
@@ -742,7 +1124,7 @@ class _StocksBodyState extends State<StocksBody> {
                                 showCheckboxColumn: false,
                                 columns: const [
                                   DataColumn(
-                                      label: Text("Product",
+                                      label: Text("Docx No.",
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
@@ -754,25 +1136,31 @@ class _StocksBodyState extends State<StocksBody> {
                                             fontWeight: FontWeight.bold,
                                           ))),
                                   DataColumn(
-                                      label: Text("IMEI",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ))),
-                                  DataColumn(
-                                      label: Text("Checked In By",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                          ))),
-                                  DataColumn(
-                                      label: Text("Warranty Duration",
+                                      label: Text("P.O Number",
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                           ))),
                                   DataColumn(
                                       label: Text("Amount",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ))),
+                                  DataColumn(
+                                      label: Text("Due Date",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ))),
+                                  DataColumn(
+                                      label: Text("Balance",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                          ))),
+                                  DataColumn(
+                                      label: Text("Number Of Devices",
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
@@ -787,27 +1175,30 @@ class _StocksBodyState extends State<StocksBody> {
                                             context,
                                             PageTransition(
                                                 type: PageTransitionType.fade,
-                                                child:
-                                                    SingleStock(id: data.id)));
+                                                child: SingleInvoice(
+                                                    id: data.id)));
                                       },
                                       cells: [
                                         DataCell(
-                                          Text(data.product),
+                                          Text(data.documentNumber.toString()),
                                         ),
                                         DataCell(
-                                          Text(data.supplier),
+                                          Text(data.supplierName),
                                         ),
                                         DataCell(
-                                          Text(data.imei.toString()),
-                                        ),
-                                        DataCell(
-                                          Text(data.checkedInPersonName),
-                                        ),
-                                        DataCell(
-                                          Text(data.warrantyDuration),
+                                          Text(data.poNumber.toString()),
                                         ),
                                         DataCell(
                                           Text(data.amount.toString()),
+                                        ),
+                                        DataCell(
+                                          Text(data.dueDate),
+                                        ),
+                                        DataCell(
+                                          Text(data.balance.toString()),
+                                        ),
+                                        DataCell(
+                                          Text(data.items.length.toString()),
                                         ),
                                       ]);
                                 }).toList()),

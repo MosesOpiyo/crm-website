@@ -42,6 +42,19 @@ class Serviceservice {
     return centers;
   }
 
+  Future addDevices(serviceId, imei) async {
+    String? token;
+    final prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');
+    var url = Uri.parse(
+        '${ApiConstants.baseUrl}${ApiConstants.addDevice}/$serviceId/$imei');
+    var response = await http.get(
+      url,
+      headers: {HttpHeaders.authorizationHeader: "Token $token"},
+    );
+    return response.body;
+  }
+
   Future<ServiceCenterResponseModel> getServiceCenter(id) async {
     String? token;
     final prefs = await SharedPreferences.getInstance();
